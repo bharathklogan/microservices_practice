@@ -1,4 +1,4 @@
-WARNING:werkzeug: * Running on all addresses.
+WARNING:werkzeug: * Running on all addresses..
    WARNING: This is a development server. Do not use it in a production deployment.
 INFO:werkzeug: * Running on http://192.168.1.37:3111/ (Press CTRL+C to quit)
 ERROR:app:Exception on / [GET]
