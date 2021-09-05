@@ -3,12 +3,19 @@ import sqlite3
 from flask import Flask, jsonify, json, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 import logging
-
+import sys
 
 # Define the Flask application
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
 app.config['DB_CONN_COUNTER'] = 0
+
+#logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
+#handler = logging.FileHandler('app.log') # creates handler for the log file
+#logger.addHandler(handler)
+#logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
+#logging.getLogger().addHandler(logging.StreamHandler(sys.stderr))
+
 
 
 # Function to get a database connection.
@@ -39,6 +46,8 @@ def index():
 # If the post ID is not found a 404 page is shown
 @app.route('/<int:post_id>')
 def post(post_id):
+    app.logger.info('Post request successfull')
+
     post = get_post(post_id)
     if post is None:
       return render_template('404.html'), 404
@@ -48,6 +57,8 @@ def post(post_id):
 # Define the About Us page
 @app.route('/about')
 def about():
+    app.logger.info('Inside About us page')
+
     return render_template('about.html')
 
 # Define the post creation functionality 
@@ -65,6 +76,8 @@ def create():
                          (title, content))
             connection.commit()
             connection.close()
+           
+            app.logger.info('Article \"%s" successfully created!', title)
 
             return redirect(url_for('index'))
 
@@ -94,7 +107,11 @@ def metrics():
     app.logger.info('Metrics request successfull')
     return response
 
-
+@app.errorhandler(404)
+def page_not_found(e):
+    app.logger.error('Page could not be found')
+    return 'This page does not exist', 404
+    
 def init_db():
     db = get_db_connection()
     with app.open_resource('schema.sql', mode='r') as f:
@@ -109,8 +126,14 @@ def initdb_command():
 
 # start the application on port 3111
 if __name__ == "__main__":
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    handlers = [stderr_handler, stdout_handler]
+    # format output
+    format_output = '%(asctime)s %(levelname)s %(name)s : %(message)s'
+    logging.basicConfig(level=logging.DEBUG, handlers=handlers, format=format_output)
+
     app.run(host='0.0.0.0', port='3111')
-    logging.basicConfig(filename='app.log',level=logging.DEBUG)
 
    
   
