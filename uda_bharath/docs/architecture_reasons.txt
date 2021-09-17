@@ -1,0 +1,14 @@
+The udaconnect monolith application had 3 main resources - Person, Location and Connection as a single unit.
+
+I decided to keep 3 resources as seperate microservice.
+
+
+The person and lcoation details are passed to kafka producer from rest call and the kafka consumer consumes the data is passed to gRPC which stores the data in the dB.
+
+The connection details for a person is populated from the DB and passed through REST call to the frontend.
+
+The person details can be reterived seperately through REST API call.
+
+Apart from RESTful services that was used in the monolith application. I have added "gRPC" and "Kafka" to make the application robust and durable to high load.
+
+

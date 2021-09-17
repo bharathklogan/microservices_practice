@@ -1,0 +1,7 @@
+In the Project folder "modules" you have the grpc folder, and there is a "writer.py" that you can run once you have the gRPC server running.
+
+To make a sample request to the gRPC server, please have a look in the file in the modules folder.
+modules/lcoation_grpc/writer.py
+Please modify the values in this file and execute it.
+
+This will send request to the gRPC server which has been deployed into kubernetes and it is up and running.
