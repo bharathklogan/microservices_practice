@@ -1,0 +1,7 @@
+Flask==1.1.2
+gunicorn==20.0.4
+opentracing
+jaeger-client
+redis==3.5.3
+Flask-OpenTracing==1.1.0
+requests

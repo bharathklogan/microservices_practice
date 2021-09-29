@@ -1,0 +1,10 @@
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: my-traces
+  namespace: 
+apiVersion: jaegertracing.io/v1
+kind: Jaeger
+metadata:
+  name: my-traces
+  namespace: observability
